@@ -1,7 +1,7 @@
-import RepositoryList from "./src/components/RepositoryList";
+import Main from "./src/components/Main";
 
 const App = () => {
-  return <RepositoryList />;
+  return <Main />;
 };
 
 export default App;
