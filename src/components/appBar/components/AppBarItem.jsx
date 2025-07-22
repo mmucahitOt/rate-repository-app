@@ -1,10 +1,13 @@
-import { Text, View } from 'react-native';
+import { Pressable, Text } from 'react-native';
 
 const AppBarItem = () => {
-  return <View>
-    <Text>Repositories</Text>
-  </View>
-
+  return (
+    <Pressable onPress={() => {
+      console.log('Repositories');
+    }}>
+      <Text>Repositories</Text>
+    </Pressable>
+  );
 };
 
 export default AppBarItem;
