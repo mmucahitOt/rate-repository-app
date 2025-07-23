@@ -1,7 +1,8 @@
-  import { Pressable, StyleSheet, Text } from 'react-native';
+  import { Pressable, StyleSheet } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import theme from '../../../configs/theme';
 import { View } from 'react-native';
+import Text from '../../common/Text';
 
 const styles = StyleSheet.create({
   container: {
