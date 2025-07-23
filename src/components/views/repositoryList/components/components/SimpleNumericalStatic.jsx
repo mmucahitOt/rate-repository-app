@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import Text from "../../../../../common/Text";
+import Text from "../../../../common/Text";
 
 const styles = StyleSheet.create({
   container: {

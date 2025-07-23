@@ -8,16 +8,19 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.primary,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-around',
     alignItems: 'center',
     padding: 10,
   },
 });
 
 const AppBar = () => {
-  return <View style={styles.container}>
-    <AppBarItem />
-  </View>;
+  return (
+    <View style={styles.container}>
+      <AppBarItem label="Sign In" path="/sign-in" />
+     <AppBarItem label="Repositories" path="/repositories" />
+    </View>
+  );
 };
 
 export default AppBar;
