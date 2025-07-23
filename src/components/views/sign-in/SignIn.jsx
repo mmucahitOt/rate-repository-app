@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import Text from '../../common/Text';
 import { StyleSheet } from 'react-native';
 import theme from '../../../configs/theme';
+import * as yup from 'yup';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,26 +40,45 @@ const initialValues = {
   password: '',
 };
 
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .min(1, 'Username must be greater or equal to 1')
+    .required('Username is required'),
+  password: yup
+    .string()
+    .min(1, 'Password must be greater or equal to 1')
+    .required('Password is required'),
+});
+
 const SignInForm = ({ onSubmit }) => {
   const formik = useFormik({
     initialValues,
     onSubmit,
+    validationSchema,
   });
 
   return (
     <View style={styles.container}>
-      <TextInput style={styles.textInput}
+      <TextInput style={[ styles.textInput, formik.touched.username && formik.errors.username && { borderColor: 'red' }]}
         placeholder="Username"
         value={formik.values.username}
         onChangeText={formik.handleChange('username')}
       />
-      <TextInput style={styles.textInput}
+      {formik.touched.username && formik.errors.username && (
+        <Text color="error">{formik.errors.username}</Text>
+      )}
+      <TextInput style={[ styles.textInput, formik.touched.password && formik.errors.password && { borderColor: 'red' }
+      ]}
         secureTextEntry={true}
         placeholder="Password"
         value={formik.values.password}
         onChangeText={formik.handleChange('password')}
       />
-      <Pressable style={styles.button} onPress={formik.handleSubmit}>
+      {formik.touched.password && formik.errors.password && (
+        <Text color="error">{formik.errors.password}</Text>
+      )}
+      <Pressable disabled={!formik.isValid} style={styles.button} onPress={formik.handleSubmit}>
         <Text>Sign In</Text>
       </Pressable>
     </View>
