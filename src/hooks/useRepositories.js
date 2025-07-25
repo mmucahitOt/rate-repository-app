@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import serverConfig from "../configs/serverConfig";
+import serverConfig from "../configs/appConfig";
 
 const useRepositories = () => {
   const [repositories, setRepositories] = useState();
@@ -7,7 +7,7 @@ const useRepositories = () => {
 
   const fetchRepositories = async () => {
     setLoading(true);
-    const response = await fetch(`${serverConfig.baseUrl}/api/repositories`);
+    const response = await fetch(`${serverConfig.serverUrl}/api/repositories`);
     const json = await response.json();
 
     setLoading(false);
