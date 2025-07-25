@@ -1,17 +1,18 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-class UserStorage {
+class AuthStorage {
   constructor(namespace) {
     this.namespace = namespace;
   }
 
-  async setUser(user) {
-    await AsyncStorage.setItem(this.namespace, JSON.stringify(user));
+  async setAuth(auth) {
+    await AsyncStorage.setItem(this.namespace, JSON.stringify(auth));
   }
 
-  async getUser() {
+  async getAuth() {
     return await AsyncStorage.getItem(this.namespace);
   }
+
   async setItem(key, value) {
     await AsyncStorage.setItem(`${this.namespace}:${key}`, value);
   }
@@ -32,6 +33,14 @@ class UserStorage {
     return await this.getItem("accessToken");
   }
 
+  async setAccessToken(accessToken) {
+    await this.setItem("accessToken", accessToken);
+  }
+
+  async removeAccessToken() {
+    await this.removeItem("accessToken");
+  }
+
   async getExpiresAt() {
     return await this.getItem("expiresAt");
   }
@@ -43,4 +52,4 @@ class UserStorage {
   }
 }
 
-export default new UserStorage("user");
+export default new AuthStorage("auth");
