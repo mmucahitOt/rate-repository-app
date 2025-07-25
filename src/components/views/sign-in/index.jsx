@@ -1,9 +1,12 @@
-import { View, TextInput, Pressable } from 'react-native';
+import { View, TextInput, Pressable, Alert } from 'react-native';
+import { useNavigate } from 'react-router-native';
 import { useFormik } from 'formik';
 import Text from '../../common/Text';
 import { StyleSheet } from 'react-native';
 import theme from '../../../configs/theme';
 import * as yup from 'yup';
+import useSignIn from '../../../hooks/useSignIn';
+import { useEffect } from 'react';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,12 +54,34 @@ const validationSchema = yup.object().shape({
     .required('Password is required'),
 });
 
-const SignInForm = ({ onSubmit }) => {
+const SignInForm = () => {
   const formik = useFormik({
     initialValues,
-    onSubmit,
     validationSchema,
   });
+  const navigate = useNavigate();
+
+  const { signIn, result } = useSignIn();
+
+  useEffect(() => {
+    if (result.data && result.data.authenticate) {
+      navigate('/repositories');
+    }
+  }, [result.data, navigate]);
+
+  useEffect(() => { 
+    if (result.error) {
+      Alert.alert('Error', result.error.message);
+    }
+  }, [result.error]);
+
+  const handleSubmit = async () => {
+    const data = await signIn(formik.values.username, formik.values.password);
+    console.log(data);
+    if (data) {
+      navigate('/repositories');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -64,6 +89,7 @@ const SignInForm = ({ onSubmit }) => {
         placeholder="Username"
         value={formik.values.username}
         onChangeText={formik.handleChange('username')}
+        autoCapitalize="none"
       />
       {formik.touched.username && formik.errors.username && (
         <Text color="error">{formik.errors.username}</Text>
@@ -78,7 +104,7 @@ const SignInForm = ({ onSubmit }) => {
       {formik.touched.password && formik.errors.password && (
         <Text color="error">{formik.errors.password}</Text>
       )}
-      <Pressable disabled={!formik.isValid} style={styles.button} onPress={formik.handleSubmit}>
+      <Pressable disabled={!formik.isValid} style={styles.button} onPress={handleSubmit}>
         <Text>Sign In</Text>
       </Pressable>
     </View>
@@ -86,11 +112,9 @@ const SignInForm = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
-  const onSubmit = values => {
-    console.log(values);
-  };
+  const navigate = useNavigate();
 
-  return <SignInForm onSubmit={onSubmit} />;
+  return <SignInForm onSubmit={navigate} />;
 };
 
 export default SignIn;
