@@ -1,7 +1,7 @@
 import { View, StyleSheet, Image, Text as NativeText } from "react-native";
 import Text from "../../../common/Text";
 import theme from "../../../../configs/theme";
-import RepositoryStatistics from "./components/RepositoryStatistics";
+import RepositoryStatistics from "./RepositoryStatistics";
 
 const styles = StyleSheet.create({
   container: {
