@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 class AuthStorage {
-  constructor(namespace) {
-    this.namespace = namespace;
+  constructor() {
+    this.namespace = "auth";
   }
 
   async setAuth(auth) {
@@ -10,7 +10,8 @@ class AuthStorage {
   }
 
   async getAuth() {
-    return await AsyncStorage.getItem(this.namespace);
+    const auth = await AsyncStorage.getItem(this.namespace);
+    return auth ? JSON.parse(auth) : null;
   }
 
   async setItem(key, value) {
@@ -30,7 +31,8 @@ class AuthStorage {
   }
 
   async getAccessToken() {
-    return await this.getItem("accessToken");
+    const accessToken = await this.getItem("accessToken");
+    return accessToken ? JSON.parse(accessToken) : null;
   }
 
   async setAccessToken(accessToken) {
@@ -42,14 +44,22 @@ class AuthStorage {
   }
 
   async getExpiresAt() {
-    return await this.getItem("expiresAt");
+    const expiresAt = await this.getItem("expiresAt");
+    return expiresAt ? JSON.parse(expiresAt) : null;
   }
 
   async isAuthenticated() {
-    const accessToken = await this.getAccessToken();
-    const expiresAt = await this.getExpiresAt();
+    const auth = await this.getAuth();
+    if (!auth) {
+      return false;
+    }
+    const { accessToken, expiresAt } = JSON.parse(auth);
     return accessToken && expiresAt && expiresAt > Date.now();
+  }
+
+  async removeAuth() {
+    await AsyncStorage.removeItem(this.namespace);
   }
 }
 
-export default new AuthStorage("auth");
+export default AuthStorage;

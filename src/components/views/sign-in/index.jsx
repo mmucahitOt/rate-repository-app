@@ -59,15 +59,10 @@ const SignInForm = () => {
     initialValues,
     validationSchema,
   });
+
   const navigate = useNavigate();
 
   const { signIn, result } = useSignIn();
-
-  useEffect(() => {
-    if (result.data && result.data.authenticate) {
-      navigate('/repositories');
-    }
-  }, [result.data, navigate]);
 
   useEffect(() => { 
     if (result.error) {
@@ -77,7 +72,6 @@ const SignInForm = () => {
 
   const handleSubmit = async () => {
     const data = await signIn(formik.values.username, formik.values.password);
-    console.log(data);
     if (data) {
       navigate('/repositories');
     }
