@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 import { getRepositoriesQuery } from '../../../graphql';
 import { useEffect, useState } from 'react';
 import Text from '../../common/Text';
+import RepositoryListContainer from './repositoryListContainer';
 
 const styles = StyleSheet.create({
   separator: {
@@ -35,20 +36,7 @@ const RepositoryList = () => {
   }
 
   return (
-    <FlatList
-      data={repositories}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <RepositoryItem
-        ownerAvatarUrl={item.ownerAvatarUrl}
-        fullName={item.fullName}
-        description={item.description}
-        language={item.language}
-        forksCount={item.forksCount}
-        stargazersCount={item.stargazersCount}
-        ratingAverage={item.ratingAverage}
-        reviewCount={item.reviewCount} />}
-      keyExtractor={item => item.id}
-    />
+    <RepositoryListContainer repositories={repositories} />
   );
 };
 

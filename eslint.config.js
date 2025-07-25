@@ -31,6 +31,7 @@ export default [
         version: "detect",
       },
     },
+    extends: ["eslint:recommended", "plugin:react/recommended", "plugin:jest/recommended"],
     rules: {
       ...react.configs.recommended.rules,
       "react/prop-types": "off",

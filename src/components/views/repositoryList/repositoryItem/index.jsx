@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({
+  id,
   ownerAvatarUrl,
   fullName,
   description,
@@ -53,7 +54,7 @@ const RepositoryItem = ({
   reviewCount,
 }) => {
   return (
-  <View style={styles.container}>
+  <View testID={`repositoryItem-${id}`} style={styles.container}>
     <View style={styles.imageContainer}>
       <Image source={{ uri: ownerAvatarUrl }} style={styles.image} />
       <View style={styles.textContainer}>
