@@ -6,16 +6,6 @@ import { useEffect, useState } from 'react';
 import Text from '../../common/Text';
 import RepositoryListContainer from './repositoryListContainer';
 
-const styles = StyleSheet.create({
-  separator: {
-    height: 10,
-  },
-});
-
-
-const ItemSeparator = () => <View style={styles.separator} />;
-
-
 const RepositoryList = () => {
   const [repositories, setRepositories] = useState([]);
   const { data, loading, error } = useQuery(getRepositoriesQuery, {
