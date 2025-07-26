@@ -1,22 +1,10 @@
 import { gql } from "@apollo/client";
+import { RepositoriesResultFragment } from "../fragments";
 
 const getRepositoriesQuery = gql`
+  ${RepositoriesResultFragment}
   query {
-    repositories {
-      edges {
-        node {
-          id
-          ownerAvatarUrl
-          fullName
-          description
-          language
-          forksCount
-          stargazersCount
-          ratingAverage
-          reviewCount
-        }
-      }
-    }
+    ...RepositoriesResultFragment
   }
 `;
 

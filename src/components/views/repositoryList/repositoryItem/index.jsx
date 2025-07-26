@@ -1,7 +1,8 @@
-import { View, StyleSheet, Image, Text as NativeText } from "react-native";
+import { View, StyleSheet, Image, Text as NativeText, Pressable } from "react-native";
 import Text from "../../../common/Text";
 import theme from "../../../../configs/theme";
 import RepositoryStatistics from "./RepositoryStatistics";
+import { useNavigate } from "react-router-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -53,7 +54,9 @@ const RepositoryItem = ({
   ratingAverage,
   reviewCount,
 }) => {
+  const navigate = useNavigate();
   return (
+    <Pressable onPress={() => { navigate(`/repositories/${id}`) }}>
   <View testID={`repositoryItem-${id}`} style={styles.container}>
     <View style={styles.imageContainer}>
       <Image source={{ uri: ownerAvatarUrl }} style={styles.image} />
@@ -71,7 +74,8 @@ const RepositoryItem = ({
         ratingAverage={ratingAverage}
         reviewCount={reviewCount}
       />
-  </View>
+      </View>
+    </Pressable>
   );
 };
 
