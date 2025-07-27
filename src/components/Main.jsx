@@ -7,8 +7,7 @@ import RepositoryList from './views/repositoryList';
 import SignIn from './views/sign-in';
 import RepositoryDetail from './views/repositoryDetail';
 import ReviewCreate from './views/reviewCreate';
-import { AuthStorageContext } from '../contexts/AuthStorageContext';
-import { useContext } from 'react';
+import SignUp from './views/sign-up';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,17 +17,14 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
-  const { isAuthenticated } = useContext(AuthStorageContext);
-
-  if (!isAuthenticated) {
-    return <SignIn />;
-  }
 
   return (
   <View style={styles.container}>
     <AppBar />
       <Routes>
-        <Route path="/" element={<RepositoryList />} />
+        <Route path="/" element={<SignIn />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route path="/repositories" element={<RepositoryList />} />
         <Route path="/repositories/:id" element={<RepositoryDetail />} />
         <Route path="/review-create" element={<ReviewCreate />} />

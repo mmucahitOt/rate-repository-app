@@ -32,7 +32,14 @@ const AppBar = () => {
   };
 
   if (!isAuthenticated) {
-    return undefined;
+    return (
+      <View>
+        <View style={styles.container}>
+          <AppBarItem label="Sign In" path="/sign-in" />
+          <AppBarItem label="Sign Up" path="/sign-up" />
+        </View>
+      </View>
+    )
   }
 
     return (

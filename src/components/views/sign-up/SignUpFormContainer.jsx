@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 const initialValues = {
   username: '',
   password: '',
+  confirmPassword: '',
 };
 
 const validationSchema = yup.object().shape({
@@ -50,9 +51,14 @@ const validationSchema = yup.object().shape({
     .string()
     .min(1, 'Password must be greater or equal to 1')
     .required('Password is required'),
+  confirmPassword: yup
+    .string()
+    .min(1, 'Confirm Password must be greater or equal to 1')
+    .required('Confirm Password is required')
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
 
-const SignInFormContainer = ({ onSubmit }) => {
+const SignUpFormContainer = ({ onSubmit }) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -83,11 +89,22 @@ const SignInFormContainer = ({ onSubmit }) => {
       {formik.touched.password && formik.errors.password && (
         <Text color="error">{formik.errors.password}</Text>
       )}
+      <TextInput style={[ styles.textInput, formik.touched.confirmPassword && formik.errors.confirmPassword && { borderColor: 'red' }
+      ]}
+        secureTextEntry={true}
+        placeholder="Confirm Password"
+        value={formik.values.confirmPassword}
+        onChangeText={formik.handleChange('confirmPassword')}
+        onBlur={formik.handleBlur('confirmPassword')}
+      />
+      {formik.touched.confirmPassword && formik.errors.confirmPassword && formik.errors.confirmPassword !== formik.values.password && (
+        <Text color="error">{formik.errors.confirmPassword}</Text>
+      )}
       <Pressable disabled={!formik.isValid} style={styles.button} onPress={() => onSubmit(formik.values)}>
-        <Text>Sign In</Text>
+        <Text>Sign Up</Text>
       </Pressable>
     </View>
   );
 };
 
-export default SignInFormContainer;
+export default SignUpFormContainer;

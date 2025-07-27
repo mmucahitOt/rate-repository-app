@@ -9,8 +9,15 @@ import { AuthStorageContext } from '../../../contexts/AuthStorageContext';
 const SignIn = () => {
   const navigate = useNavigate();
   const { authSignIn } = useContext(AuthStorageContext);
+  const { isAuthenticated } = useContext(AuthStorageContext);
   
   const { signIn, result } = useSignIn();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/repositories');
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => { 
     if (result.error) {
