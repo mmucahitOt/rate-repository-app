@@ -15,18 +15,19 @@ const styles = StyleSheet.create({
 
   ratingContainer: {
     flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+    borderRadius: 15,
+    width: 30,
+    height: 30,
   },
-  
+
   ratingText: {
     fontSize: theme.fontSizes.subheading,
     fontWeight: "bold",
     color: theme.colors.primary,
-    margin: 10,
-    borderColor: theme.colors.primary,
-    borderRadius: 10,
-    borderWidth: 3,
   },
 
   usernameText: {
@@ -68,7 +69,9 @@ const ReviewItem = ({ review }) => {
   return (
     <View style={styles.container}>
       <View style={styles.ratingContainer}>
-        <Text style={styles.ratingText}>{review.rating}</Text>
+        <View style={styles.ratingTextContainer}>
+          <Text style={styles.ratingText}>{review.rating}</Text>
+        </View>
       </View>
       <View>
       <View style={styles.reviewContainer}>
