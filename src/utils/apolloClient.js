@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";  
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import serverConfig from "../configs/appConfig";
 const httpLink = createHttpLink({
@@ -8,11 +8,12 @@ const httpLink = createHttpLink({
 const createApolloClient = (authStorage) => {
   const authLink = setContext(async (_, { headers }) => {
     try {
-      const accessToken = await authStorage.getAccessToken();
+      const auth = await authStorage.getAuth();
+      console.log(auth);
       return {
         headers: {
           ...headers,
-          authorization: accessToken ? `Bearer ${accessToken}` : "",
+          authorization: auth?.accessToken ? `Bearer ${auth.accessToken}` : "",
         },
       };
     } catch (e) {

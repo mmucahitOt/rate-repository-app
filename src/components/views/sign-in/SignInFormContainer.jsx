@@ -1,17 +1,15 @@
-import { View, TextInput, Pressable, Alert } from 'react-native';
-import { useNavigate } from 'react-router-native';
+import { View, TextInput, Pressable } from 'react-native';
 import { useFormik } from 'formik';
 import Text from '../../common/Text';
 import { StyleSheet } from 'react-native';
 import theme from '../../../configs/theme';
 import * as yup from 'yup';
-import useSignIn from '../../../hooks/useSignIn';
-import { useEffect } from 'react';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 100,
+    marginTop: 300,
     flexDirection: 'column',
+    justifyContent: 'flex-start',
     flex: 1,
     padding: 10,
   },

@@ -2,12 +2,14 @@ import { Alert } from 'react-native';
 import { useNavigate } from 'react-router-native';
 
 import useSignIn from '../../../hooks/useSignIn';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import SignInFormContainer from './SignInFormContainer';
+import { AuthStorageContext } from '../../../contexts/AuthStorageContext';
 
 const SignIn = () => {
   const navigate = useNavigate();
-
+  const { authSignIn } = useContext(AuthStorageContext);
+  
   const { signIn, result } = useSignIn();
 
   useEffect(() => { 
@@ -20,6 +22,7 @@ const SignIn = () => {
     const { username, password } = params;
     const data = await signIn(username, password);
     if (data) {
+      await authSignIn(data);
       navigate('/repositories');
     }
   };
