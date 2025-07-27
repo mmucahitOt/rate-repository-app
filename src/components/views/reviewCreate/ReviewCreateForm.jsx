@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  buttonDisabled: {
+    backgroundColor: 'gray',
+    opacity: 0.6,
+  },
 });
 
 const ReviewCreateForm = ({ onSubmit }) => {
@@ -40,16 +44,18 @@ const ReviewCreateForm = ({ onSubmit }) => {
     initialValues: {
       repositoryName: "",
       ownerName: "",
-      rating: 0,
+      rating: "",
       text: "",
     },
     onSubmit,
     validationSchema: yup.object({
       repositoryName: yup.string().min(1, "Repository name is required").required("Repository name is required"),
       ownerName: yup.string().min(1, "Owner name is required").required("Owner name is required"),
-      rating: yup.number().min(0, "Rating is required").max(100, "Rating is required").required("Rating is required"),
-      text: yup.string().min(1, "Review text is required").required("Review text is required"),
+      rating: yup.number().min(0, "Rating must be at least 0").max(100, "Rating must be at most 100").required("Rating is required"),
+      text: yup.string().optional(),
     }),
+    validateOnChange: true,
+    validateOnBlur: true,
   });
 
   useEffect(() => {
@@ -66,6 +72,7 @@ const ReviewCreateForm = ({ onSubmit }) => {
             placeholder="Repository Name"
             value={formik.values.repositoryName}
             onChangeText={formik.handleChange('repositoryName')}
+            onBlur={formik.handleBlur('repositoryName')}
             autoCapitalize="none"
           />
           {formik.touched.repositoryName && formik.errors.repositoryName && (
@@ -75,6 +82,7 @@ const ReviewCreateForm = ({ onSubmit }) => {
             placeholder="Repository Owner Name"
             value={formik.values.ownerName}
             onChangeText={formik.handleChange('ownerName')}
+            onBlur={formik.handleBlur('ownerName')}
             autoCapitalize="none"
         />
         {formik.touched.ownerName && formik.errors.ownerName && (
@@ -84,6 +92,8 @@ const ReviewCreateForm = ({ onSubmit }) => {
             placeholder="Rating between 0 and 100"
             value={formik.values.rating}
             onChangeText={formik.handleChange('rating')}
+            onBlur={formik.handleBlur('rating')}
+            keyboardType="numeric"
             autoCapitalize="none"
         />
         {formik.touched.rating && formik.errors.rating && (
@@ -93,18 +103,23 @@ const ReviewCreateForm = ({ onSubmit }) => {
             placeholder="Review"
             value={formik.values.text}
             onChangeText={formik.handleChange('text')}
+            onBlur={formik.handleBlur('text')}
             multiline={true}
             numberOfLines={4}
         />
         {formik.touched.text && formik.errors.text && (
             <Text color="error">{formik.errors.text}</Text>
           )}
-        <Pressable disabled={!formik.isValid} style={styles.button} onPress={() => onSubmit({
+        <Pressable 
+          disabled={!formik.isValid} 
+          style={[styles.button, !formik.isValid && styles.buttonDisabled]} 
+          onPress={() => onSubmit({
             repositoryName: formik.values.repositoryName,
             ownerName: formik.values.ownerName,
             rating: Number(formik.values.rating),
-            text: formik.values.text,
-          })}>
+            text: formik.values.text !== "" ? formik.values.text : undefined,
+          })}
+        >
             <Text>Create Review</Text>
           </Pressable>
         </View>

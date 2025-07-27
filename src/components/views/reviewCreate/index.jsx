@@ -6,11 +6,12 @@ import { Alert } from "react-native";
 import { useNavigate } from "react-router-native";
 
 const ReviewCreate = () => {
-  const { navigate } = useNavigate();
+  const navigate = useNavigate();
   const [mutate, { error, loading, data }] = useMutation(createReview);
 
   const handleSubmit = async (review) => {
     const { data } = await mutate({ variables: { review } });
+    console.log(data);
     navigate(`/repositories/${data.createReview.repositoryId}`);
   }
 
