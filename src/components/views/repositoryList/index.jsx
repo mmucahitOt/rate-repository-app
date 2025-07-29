@@ -4,9 +4,12 @@ import { useEffect, useState } from 'react';
 import Text from '../../common/Text';
 import RepositoryListContainer from './repositoryListContainer';
 import { OrderBy, OrderDirection } from '../../../graphql/enums';
+import { useDebounce } from 'use-debounce';
 
 const RepositoryList = () => {
   const [order, setOrder] = useState({ orderBy: OrderBy.CREATED_AT, orderDirection: OrderDirection.DESC });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
 
   const [repositories, setRepositories] = useState([]);
   const { data, loading, error, refetch } = useQuery(getRepositoriesQuery, {
@@ -24,8 +27,15 @@ const RepositoryList = () => {
   }, [data]);
 
   useEffect(() => {
-    refetch();
-  }, [order, order.orderBy, order.orderDirection]);
+    const variables = {
+      orderBy: order.orderBy,
+      orderDirection: order.orderDirection,
+    };
+    if (debouncedSearchQuery && debouncedSearchQuery.trim() !== '') {
+      variables.searchKeyword = debouncedSearchQuery;
+    }
+    refetch(variables);
+  }, [order, order.orderBy, order.orderDirection, debouncedSearchQuery]);
 
   if (loading) return <Text>Loading...</Text>;
 
@@ -39,7 +49,13 @@ const RepositoryList = () => {
   };
 
   return (
-    <RepositoryListContainer repositories={repositories} onOrderChange={onOrderChange} order={order} />
+    <RepositoryListContainer 
+      repositories={repositories} 
+      onOrderChange={onOrderChange} 
+      order={order}
+      searchQuery={searchQuery}
+      setSearchQuery={setSearchQuery}
+    />
   );
 };
 

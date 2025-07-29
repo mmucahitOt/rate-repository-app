@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Menu, Button, Divider } from 'react-native-paper';
-import { OrderBy, OrderDirection } from '../../../graphql/enums';
-import theme from '../../../configs/theme';
+import { OrderBy, OrderDirection } from '../../../../graphql/enums';
+import theme from '../../../../configs/theme';
 
 const styles = StyleSheet.create({
   container: {
