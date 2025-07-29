@@ -46,6 +46,7 @@ const AppBar = () => {
       <View>
         <View style={styles.container}>
           <AppBarItem label="Repositories" path="/repositories" />
+          <AppBarItem label="My Reviews" path="/user-review-list" />
           <AppBarItem label="Create Review" path="/review-create" />
           <Pressable onPress={handleSignOut}><Text>Sign Out</Text></Pressable>
         </View>

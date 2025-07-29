@@ -8,6 +8,7 @@ import SignIn from './views/sign-in';
 import RepositoryDetail from './views/repositoryDetail';
 import ReviewCreate from './views/reviewCreate';
 import SignUp from './views/sign-up';
+import UserReviewList from './views/userReviewList';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +29,7 @@ const Main = () => {
         <Route path="/repositories" element={<RepositoryList />} />
         <Route path="/repositories/:id" element={<RepositoryDetail />} />
         <Route path="/review-create" element={<ReviewCreate />} />
+        <Route path="/user-review-list" element={<UserReviewList />} />
     </Routes>
   </View>);
 };
