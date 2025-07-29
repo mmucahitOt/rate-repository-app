@@ -3,8 +3,13 @@ import { RepositoriesResultFragment } from "../fragments";
 
 const getRepositoriesQuery = gql`
   ${RepositoriesResultFragment}
-  query {
-    ...RepositoriesResultFragment
+  query Repositories(
+    $orderBy: AllRepositoriesOrderBy
+    $orderDirection: OrderDirection
+  ) {
+    repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
+      ...RepositoriesResultFragment
+    }
   }
 `;
 

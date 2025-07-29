@@ -3,12 +3,10 @@ import RepositoryFragment from "./repositoryFragment";
 
 const RepositoriesResultFragment = gql`
   ${RepositoryFragment}
-  fragment RepositoriesResultFragment on Query {
-    repositories {
-      edges {
-        node {
-          ...RepositoryFragment
-        }
+  fragment RepositoriesResultFragment on RepositoryConnection {
+    edges {
+      node {
+        ...RepositoryFragment
       }
     }
   }
