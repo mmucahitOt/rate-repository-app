@@ -6,6 +6,7 @@ import Text from '../common/Text';
 import { useNavigate } from 'react-router-native';
 import { useContext } from 'react';
 import { AuthStorageContext } from '../../contexts/AuthStorageContext';
+import { useApolloClient } from '@apollo/client';
 
 const styles = StyleSheet.create({  
   container: {
@@ -25,9 +26,11 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   const { isAuthenticated, authSignOut } = useContext(AuthStorageContext);
   const navigate = useNavigate();
+  const client = useApolloClient();
   
   const handleSignOut = async () => {
     await authSignOut();
+    client.resetStore();
     navigate('/sign-in');
   };
 

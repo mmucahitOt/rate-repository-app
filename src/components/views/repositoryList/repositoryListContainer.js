@@ -22,6 +22,7 @@ const RepositoryListContainer = ({
   order,
   searchQuery,
   setSearchQuery,
+  onEndReach,
 }) => {
   return (
     <View style={{ flex: 1 }}>
@@ -51,6 +52,8 @@ const RepositoryListContainer = ({
           />
         )}
         keyExtractor={(item) => item.id}
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.5}
       />
     </View>
   );

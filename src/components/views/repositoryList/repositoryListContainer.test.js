@@ -1,5 +1,7 @@
 import { render, fireEvent, screen } from "@testing-library/react-native";
 import RepositoryListContainer from "./repositoryListContainer";
+import { PaperProvider } from "react-native-paper";
+import { NativeRouter } from "react-router-native";
 
 describe("RepositoryList", () => {
   describe("RepositoryListContainer", () => {
@@ -52,7 +54,18 @@ describe("RepositoryList", () => {
 
       // Add your test code here
       const { debug } = render(
-        <RepositoryListContainer repositories={repositoryNodes} />
+        <NativeRouter>
+          <PaperProvider>
+            <RepositoryListContainer
+              repositories={repositoryNodes}
+              onOrderChange={() => {}}
+              order={{ orderBy: "CREATED_AT", orderDirection: "DESC" }}
+              searchQuery=""
+              setSearchQuery={() => {}}
+              onEndReach={() => {}}
+            />
+          </PaperProvider>
+        </NativeRouter>
       );
 
       const repositoryItem = screen.getByTestId(

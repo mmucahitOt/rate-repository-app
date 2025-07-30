@@ -17,13 +17,30 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryDetail = () => {
   const { id } = useParams();
-  const { data, loading, error } = useQuery(getRepositoryQuery, {
-    variables: { id },
+  const { data, loading, error, fetchMore } = useQuery(getRepositoryQuery, {
+    variables: { id, first: 6 },
   });
 
   useEffect(() => {
     console.log("data", JSON.stringify(data, null, 2));
   }, [data]);
+
+  const handleFetchMore = () => {
+    if (!data.repository.reviews.pageInfo.hasNextPage) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        first: 6,
+        after: data.repository.reviews.pageInfo.endCursor,
+      },
+    });
+  };
+
+  const onEndReach = () => {
+    handleFetchMore();
+  };
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;
@@ -35,6 +52,8 @@ const RepositoryDetail = () => {
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryInfo repository={data.repository} />}
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };

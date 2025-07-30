@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const getRepositoryQuery = gql`
-  query Repository($id: ID!) {
+  query Repository($id: ID!, $first: Int, $after: String) {
     repository(id: $id) {
       id
       url
@@ -13,7 +13,7 @@ const getRepositoryQuery = gql`
       stargazersCount
       ratingAverage
       reviewCount
-      reviews {
+      reviews(first: $first, after: $after) {
         totalCount
         pageInfo {
           hasPreviousPage
