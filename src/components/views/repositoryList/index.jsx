@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { getRepositoriesQuery } from '../../../graphql';
+import { getRepositoriesSimpleQuery, getRepositoriesQuery } from '../../../graphql';
 import { useEffect, useState } from 'react';
 import Text from '../../common/Text';
 import RepositoryListContainer from './repositoryListContainer';
@@ -7,12 +7,13 @@ import { OrderBy, OrderDirection } from '../../../graphql/enums';
 import { useDebounce } from 'use-debounce';
 
 const RepositoryList = () => {
+
   const [order, setOrder] = useState({ orderBy: OrderBy.CREATED_AT, orderDirection: OrderDirection.DESC });
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
 
   const [repositories, setRepositories] = useState([]);
-  const { data, loading, error, refetch } = useQuery(getRepositoriesQuery, {
+  const { data, loading, error, refetch, fetchMore } = useQuery(getRepositoriesSimpleQuery, {
     fetchPolicy: 'cache-and-network',
     variables: {
       orderBy: order.orderBy,
@@ -36,6 +37,24 @@ const RepositoryList = () => {
     }
     refetch(variables);
   }, [order, order.orderBy, order.orderDirection, debouncedSearchQuery]);
+
+  const handleFetchMore = () => {
+    const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      query: getRepositoriesQuery,
+      variables: {
+        first: 10,
+        after: data.repositories.pageInfo.endCursor,
+        orderBy: order.orderBy,
+        orderDirection: order.orderDirection,
+      },
+    });
+  };
 
   if (loading) return <Text>Loading...</Text>;
 

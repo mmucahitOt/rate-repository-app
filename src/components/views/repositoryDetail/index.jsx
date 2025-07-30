@@ -30,7 +30,7 @@ const RepositoryDetail = () => {
 
   return (
     <FlatList
-      data={data.repository.reviews.edges.map(edge => edge.node)}
+      data={data.repository.reviews?.edges?.map(edge => edge.node)}
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryInfo repository={data.repository} />}

@@ -26,7 +26,7 @@ const UserReviewList = () => {
   return (
     <FlatList
       data={data.me.reviews.edges.map(edge => edge.node)}
-      renderItem={({ item }) => <ReviewItem review={item} />}
+      renderItem={({ item }) => <ReviewItem review={item} showReviewActions={true} />}
       keyExtractor={({ id }) => id}
       ItemSeparatorComponent={ItemSeparator}
     />

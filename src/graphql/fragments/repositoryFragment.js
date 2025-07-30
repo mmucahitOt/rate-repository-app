@@ -12,17 +12,32 @@ const RepositoryFragment = gql`
     stargazersCount
     ratingAverage
     reviewCount
-    reviews {
+    reviews(first: $first, after: $after) {
+      totalCount
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        startCursor
+        endCursor
+      }
       edges {
+        cursor
         node {
           id
-          text
-          rating
-          createdAt
           user {
             id
             username
+            createdAt
+            reviews {
+              totalCount
+            }
+            reviewCount
           }
+          userId
+          repositoryId
+          rating
+          createdAt
+          text
         }
       }
     }

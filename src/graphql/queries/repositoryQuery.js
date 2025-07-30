@@ -1,11 +1,47 @@
 import { gql } from "@apollo/client";
-import RepositoryFragment from "../fragments/repositoryFragment";
 
 const getRepositoryQuery = gql`
-  ${RepositoryFragment}
   query Repository($id: ID!) {
     repository(id: $id) {
-      ...RepositoryFragment
+      id
+      url
+      ownerAvatarUrl
+      fullName
+      description
+      language
+      forksCount
+      stargazersCount
+      ratingAverage
+      reviewCount
+      reviews {
+        totalCount
+        pageInfo {
+          hasPreviousPage
+          hasNextPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            id
+            user {
+              id
+              username
+              createdAt
+              reviews {
+                totalCount
+              }
+              reviewCount
+            }
+            userId
+            repositoryId
+            rating
+            createdAt
+            text
+          }
+        }
+      }
     }
   }
 `;

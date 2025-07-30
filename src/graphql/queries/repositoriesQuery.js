@@ -1,9 +1,63 @@
 import { gql } from "@apollo/client";
-import { RepositoriesResultFragment } from "../fragments";
 
 const getRepositoriesQuery = gql`
-  ${RepositoriesResultFragment}
   query Repositories(
+    $orderBy: AllRepositoriesOrderBy
+    $orderDirection: OrderDirection
+    $searchKeyword: String
+    $first: Int
+    $after: String
+  ) {
+    repositories(
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+      searchKeyword: $searchKeyword
+      first: $first
+      after: $after
+    ) {
+      totalCount
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        startCursor
+        endCursor
+      }
+      edges {
+        node {
+          id
+          url
+          ownerAvatarUrl
+          fullName
+          description
+          language
+          forksCount
+          stargazersCount
+          ratingAverage
+          reviewCount
+          reviews {
+            edges {
+              node {
+                id
+                repositoryId
+                text
+                rating
+                createdAt
+                user {
+                  id
+                  username
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+// Create a simpler query without pagination variables for initial load
+const getRepositoriesSimpleQuery = gql`
+  query RepositoriesSimple(
     $orderBy: AllRepositoriesOrderBy
     $orderDirection: OrderDirection
     $searchKeyword: String
@@ -13,9 +67,44 @@ const getRepositoriesQuery = gql`
       orderDirection: $orderDirection
       searchKeyword: $searchKeyword
     ) {
-      ...RepositoriesResultFragment
+      totalCount
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        startCursor
+        endCursor
+      }
+      edges {
+        node {
+          id
+          url
+          ownerAvatarUrl
+          fullName
+          description
+          language
+          forksCount
+          stargazersCount
+          ratingAverage
+          reviewCount
+          reviews {
+            edges {
+              node {
+                id
+                text
+                rating
+                createdAt
+                user {
+                  id
+                  username
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
 
 export default getRepositoriesQuery;
+export { getRepositoriesSimpleQuery };

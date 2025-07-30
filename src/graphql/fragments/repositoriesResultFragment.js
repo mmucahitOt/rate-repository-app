@@ -1,12 +1,12 @@
 import { gql } from "@apollo/client";
-import RepositoryFragment from "./repositoryFragment";
+import RepositoryListItemFragment from "./repositoriesListItem";
 
 const RepositoriesResultFragment = gql`
-  ${RepositoryFragment}
+  ${RepositoryListItemFragment}
   fragment RepositoriesResultFragment on RepositoryConnection {
     edges {
       node {
-        ...RepositoryFragment
+        ...RepositoryListItemFragment
       }
     }
   }
